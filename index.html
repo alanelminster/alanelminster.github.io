@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elminster - 个人主页</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">伊尔明斯特</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">关于我</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">技能</a></li>
+                <li class="nav-item"><a href="#projects" class="nav-link">能力</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">联系</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主页部分 -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="gradient-text">你好，我是 Elminster Aumar </span>
+
+                    </h1>
+                    <p class="hero-subtitle">传奇大法师 | 密斯特拉的选民 | 完美主义者</p>
+                    <div class="hero-description">
+                        <p>Archlich, I mock everyone. Myself, most of all. </p>
+                        <p>It's how I guard my heart against the flailing lashings of life.</p>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">查看项目</a>
+                        <a href="#contact" class="btn btn-secondary">联系我</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="avatar-container">
+                        <img src="img/elminster.png" alt="个人头像" class="avatar">
+                        <div class="avatar-glow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我部分 -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">关于我</h2>
+                <p class="section-subtitle">了解我的背景和经历</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>个人简介</h3>
+                    <p>伊尔明斯特，一位年迈的法师，蜜斯特拉选民中的佼佼者，现居阴影谷，是被遗忘国度中黑暗势力的眼中钉。他曾将失控的魔法力量封锁于己身，拯救世界，其生存更多依赖智慧和游侠Sharantyr的帮助。伊尔明斯特培养了众多魔法学徒，成为顶尖魔法师。他曾挫败变节的密斯特拉选民，组建竖琴手同盟，抚养七姐妹中的数位。除了魔法，他还是一名战士、盗贼和舞蹈家。伊尔明斯特追求完美，乐于助人，正义感强，对残暴之人毫不留情。</p>
+                    
+                    <h3>职业经历</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">241DR - 至今</div>
+                            <div class="timeline-content">
+                                <h4>传奇大法师</h4>
+                                <p>阴影谷的传奇法师，负责保护阴影谷的安全，维护世界的和平。培养和训练了许多魔法学徒。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">241DR - 至今</div>
+                            <div class="timeline-content">
+                                <h4>密斯特拉的选民</h4>
+                                <p>最强大的选民。曾经将魔法女神密斯特拉那些失控的强大力量封锁在自己体内，从而使拖瑞尔世界幸免于难。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">年经验</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">完成冒险</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">法术贡献</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能部分 -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">技能专长</h2>
+                <p class="section-subtitle">部分技能专长掌握情况</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> 技能</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">炼金术</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="97%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">知识（神秘）</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="97%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">占卜</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="97%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">辨识法术</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-server"></i> 法术</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">解离术</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">通晓传奇</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">传送术</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">心灵壁障</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> 专长</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">法术升阶</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">法术倍效</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">法术穿透</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">制造奇物</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目部分 -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">特殊能力</h2>
+                <p class="section-subtitle">部分强大能力展示</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <!-- <div class="project-image">
+                        <img src="https://via.placeholder.com/400x250/667eea/ffffff?text=项目1" alt="项目1">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="project-content">
+                        <h3>选民免疫力</h3>
+                        <p>伊尔明斯特对魔法飞弹（magic missile）、侦测思想（detect thoughts）、火球术（fireball）、艾伐黑触手（Evard’s black tentacles）、弱智术（feeblemind）、死亡一指（finger of death）、阳炎爆（sunburst）和永恒静滞（temporal stasis）以及可造成相同效果的攻击完全免疫。</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">法术免疫</span>
+                            <span class="tech-tag">法术抵抗</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <!-- <div class="project-image">
+                        <img src="https://via.placeholder.com/400x250/764ba2/ffffff?text=项目2" alt="项目2">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="project-content">
+                        <h3>元素掌控</h3>
+                        <p>伊尔明斯特可以将任何他知道的带有强酸，寒冷，火，电击或音波的描述符的法术的伤害形式转化为另一种。比如火球术可以被准备为造成音波伤害而不是火焰伤害。</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">塑能学派</span>
+                            <span class="tech-tag">法术增强</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <!-- <div class="project-image">
+                        <img src="https://via.placeholder.com/400x250/f093fb/ffffff?text=项目3" alt="项目3">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="project-content">
+                        <h3>反制法术掌控</h3>
+                        <p>伊尔明斯特成功反制了一个法术时，他可以立刻把这个法术反转给攻击他的施法者。如果法术无法被法术反转，那么这个法术只是被反制。</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">法术反制</span>
+                            <span class="tech-tag">法术抵抗</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系部分 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">联系我</h2>
+                <p class="section-subtitle">加入密斯特拉的怀抱</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>联系方式</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>elminster@email.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+00 138 0000 0000</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>被遗忘的国度 阴影谷</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://twitter.com/" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="https://weixin.qq.com/" class="social-link"><i class="fab fa-weixin"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="您的称呼" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="您的组织" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" placeholder="主题" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="请输入您的消息" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">发送消息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Elminster. 保留所有权利。</p>
+                <p>由 AI <i class="fas fa-heart"></i> Trae 构建</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
