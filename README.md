@@ -12,6 +12,7 @@
 - **交互体验**: 平滑滚动、技能条动画、粒子效果等
 - **性能优化**: 使用CSS动画和Intersection Observer优化性能
 - **SEO友好**: 语义化HTML结构和合理的meta标签
+- **多页面结构**: 主页 + 二级页面（法术宝典、传奇事迹、魔法物品）
 
 ## 🚀 快速开始
 
@@ -29,7 +30,14 @@
 3. **部署到GitHub Pages**
    - 将代码推送到你的GitHub仓库
    - 在仓库设置中启用GitHub Pages
+   - 选择主分支作为发布源
    - 访问 `https://your-username.github.io`
+
+### 页面结构
+- **主页** (`index.html`)：个人简介、技能展示、项目展示
+- **法术宝典** (`spells.html`)：伊尔明斯特的原创法术展示
+- **传奇事迹** (`deeds.html`)：伊尔明斯特的传奇故事和成就
+- **魔法物品** (`artifacts.html`)：伊尔明斯特的魔法物品和神器收藏
 
 ## 🎨 自定义指南
 
@@ -127,10 +135,15 @@
 
 ```
 alanelminster.github.io/
-├── index.html          # 主页面文件
+├── index.html          # 主页面
+├── spells.html         # 法术宝典页面
+├── deeds.html          # 传奇事迹页面
+├── artifacts.html      # 魔法物品页面
 ├── styles.css          # 样式文件
-├── script.js           # JavaScript交互
-└── README.md           # 项目说明
+├── script.js           # 脚本文件
+├── README.md           # 项目文档
+└── img/                # 图片资源
+    └── elminster.png   # 伊尔明斯特头像
 ```
 
 ## 🤝 贡献

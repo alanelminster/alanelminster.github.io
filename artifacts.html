@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伊尔明斯特的魔法物品 - Alan Elminster</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .artifacts-hero {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 50%, #8b4513 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artifacts-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="treasure" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M12.5,2 L22,12.5 L12.5,23 L3,12.5 Z" fill="none" stroke="rgba(255,215,0,0.1)" stroke-width="1"/><circle cx="12.5" cy="12.5" r="2" fill="rgba(255,215,0,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23treasure)"/></svg>');
+            pointer-events: none;
+        }
+
+        .artifact-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .artifact-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border: 3px solid #daa520;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(218, 165, 32, 0.2);
+        }
+
+        .artifact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: conic-gradient(from 0deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+            animation: artifact-glow 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .artifact-card:hover::before {
+            opacity: 1;
+        }
+
+        .artifact-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(218, 165, 32, 0.4);
+            border-color: #ffd700;
+        }
+
+        @keyframes artifact-glow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .artifact-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .artifact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #daa520, #ffd700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3);
+            animation: icon-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .artifact-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin: 0;
+        }
+
+        .artifact-subtitle {
+            color: #daa520;
+            font-size: 1rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .artifact-description {
+            color: #e0e0e0;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+        }
+
+        .artifact-properties {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .property-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+        }
+
+        .property-item:last-child {
+            border-bottom: none;
+        }
+
+        .property-label {
+            color: #daa520;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .property-value {
+            color: #ffffff;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .artifact-powers {
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .powers-title {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .power-item {
+            background: rgba(218, 165, 32, 0.1);
+            border-left: 4px solid #daa520;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .power-item:hover {
+            background: rgba(218, 165, 32, 0.2);
+            transform: translateX(5px);
+        }
+
+        .power-name {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .power-description {
+            color: #f0e6d2;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .rarity-legendary {
+            border-color: #ff6b35;
+            background: linear-gradient(135deg, #1a1a2e 0%, #3d1c1c 50%, #1a1a2e 100%);
+        }
+
+        .rarity-artifact {
+            border-color: #9b59b6;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 50%, #1a1a2e 100%);
+        }
+
+        .rarity-epic {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, #1a1a2e 0%, #4a1c1c 50%, #1a1a2e 100%);
+        }
+
+        .collection-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .collection-stat {
+            background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+            border: 2px solid #daa520;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .collection-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(218, 165, 32, 0.2);
+        }
+
+        .collection-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .collection-label {
+            color: #daa520;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .artifact-lore {
+            background: rgba(218, 165, 32, 0.05);
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lore-title {
+            color: #daa520;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lore-text {
+            color: #f0e6d2;
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .magical-aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(218, 165, 32, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: aura-pulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes aura-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .artifact-showcase {
+                grid-template-columns: 1fr;
+            }
+            
+            .artifact-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .collection-stats {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <span class="logo-text">Alan Elminster</span>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="spells.html" class="nav-link">法术宝典</a></li>
+                <li class="nav-item"><a href="deeds.html" class="nav-link">传奇事迹</a></li>
+                <li class="nav-item"><a href="artifacts.html" class="nav-link active">魔法物品</a></li>
+                <li class="nav-item"><a href="index.html#contact" class="nav-link">联系</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 魔法物品页面英雄区域 -->
+    <section class="hero artifacts-hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumbs">
+                    <a href="index.html">首页</a>
+                    <span>›</span>
+                    <span class="current-page">魔法物品</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="gradient-text">伊尔明斯特的魔法收藏</span>
+                </h1>
+                <p class="hero-subtitle">传奇法师的神秘宝藏与神器收藏</p>
+                <div class="hero-description">
+                    <p>从古老的法杖到神秘的卷轴</p>
+                    <p>每一件都承载着强大的魔法力量</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 收藏统计 -->
+    <section class="section">
+        <div class="container">
+            <div class="collection-stats">
+                <div class="collection-stat">
+                    <div class="collection-number">12</div>
+                    <div class="collection-label">传奇法杖</div>
+                </div>
+                <div class="collection-stat">
+                    <div class="collection-number">8</div>
+                    <div class="collection-label">神器级物品</div>
+                </div>
+                <div class="collection-stat">
+                    <div class="collection-number">25</div>
+                    <div class="collection-label">魔法卷轴</div>
+                </div>
+                <div class="collection-stat">
+                    <div class="collection-number">7</div>
+                    <div class="collection-label">防护饰品</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 魔法物品展示 -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">传奇收藏</h2>
+                <p class="section-subtitle">伊尔明斯特最著名的魔法物品</p>
+            </div>
+
+            <div class="artifact-showcase">
+                <!-- 伊尔明斯特之杖 -->
+                <div class="artifact-card">
+                    <div class="magical-aura"></div>
+                    <div class="artifact-header">
+                        <div class="artifact-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div>
+                            <h3 class="artifact-name">伊尔明斯特之杖</h3>
+                            <p class="artifact-subtitle">传奇法杖 · 选民神器</p>
+                        </div>
+                    </div>
+                    <p class="artifact-description">
+                        这根由密斯特拉亲自祝福的法杖是伊尔明斯特的标志性物品。它由星界银木制成，顶端镶嵌着一颗能够储存和放大魔法力量的神秘水晶。这根法杖见证了无数个世纪的魔法历史。
+                    </p>
+                    <div class="artifact-properties">
+                        <div class="property-item">
+                            <span class="property-label">物品等级</span>
+                            <span class="property-value">神器</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">重量</span>
+                            <span class="property-value">3磅</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">材质</span>
+                            <span class="property-value">星界银木 + 神秘水晶</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">增强</span>
+                            <span class="property-value">+5法术强度</span>
+                        </div>
+                    </div>
+                    <div class="artifact-powers">
+                        <h4 class="powers-title">
+                            <i class="fas fa-star"></i>
+                            特殊能力
+                        </h4>
+                        <div class="power-item">
+                            <div class="power-name">银火储存</div>
+                            <div class="power-description">能够储存并释放银火之力，每天可释放3次强大的银火攻击</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">法术增幅</div>
+                            <div class="power-description">所有通过法杖施展的法术获得额外效果，法术DC增加2点</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">魔法感知</div>
+                            <div class="power-description">持有者能够感知周围120尺内的所有魔法 aura</div>
+                        </div>
+                    </div>
+                    <div class="artifact-lore">
+                        <h5 class="lore-title">
+                            <i class="fas fa-scroll"></i>
+                            物品传说
+                        </h5>
+                        <p class="lore-text">
+                            "当密斯特拉选择伊尔明斯特作为选民时，她亲手将这根法杖交给了他。这根法杖不仅是一件强大的魔法物品，更是女神信任的象征。它见证了伊尔明斯特从一个年轻法师成长为被遗忘国度最伟大守护者的全过程。"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 密斯特拉之冠 -->
+                <div class="artifact-card rarity-legendary">
+                    <div class="magical-aura"></div>
+                    <div class="artifact-header">
+                        <div class="artifact-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div>
+                            <h3 class="artifact-name">密斯特拉之冠</h3>
+                            <p class="artifact-subtitle">传奇头饰 · 神圣祝福</p>
+                        </div>
+                    </div>
+                    <p class="artifact-description">
+                        这顶精美的头饰是密斯特拉赐予伊尔明斯特的神圣礼物。它由纯净的秘银制成，镶嵌着七颗代表不同魔法学派的宝石。佩戴者能够获得对魔法的深刻理解和强大的防护能力。
+                    </p>
+                    <div class="artifact-properties">
+                        <div class="property-item">
+                            <span class="property-label">物品等级</span>
+                            <span class="property-value">传奇</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">重量</span>
+                            <span class="property-value">1磅</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">材质</span>
+                            <span class="property-value">秘银 + 魔法宝石</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">防护</span>
+                            <span class="property-value">+3 AC加成</span>
+                        </div>
+                    </div>
+                    <div class="artifact-powers">
+                        <h4 class="powers-title">
+                            <i class="fas fa-shield-alt"></i>
+                            特殊能力
+                        </h4>
+                        <div class="power-item">
+                            <div class="power-name">魔法免疫</div>
+                            <div class="power-description">对6级及以下法术完全免疫，对更高级法术有50%抗性</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">学派专精</div>
+                            <div class="power-description">所有七个魔法学派的法术获得额外效果，施法时间减半</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">神圣洞察</div>
+                            <div class="power-description">获得真实视觉，能够看穿幻象、变形和隐形</div>
+                        </div>
+                    </div>
+                    <div class="artifact-lore">
+                        <h5 class="lore-title">
+                            <i class="fas-scroll"></i>
+                            物品传说
+                        </h5>
+                        <p class="lore-text">
+                            "这顶皇冠不仅是权力的象征，更是智慧的源泉。每一颗宝石都蕴含着不同学派的奥秘，只有真正的魔法大师才能完全发挥它的力量。伊尔明斯特佩戴它数个世纪，从未摘下。"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 星界法袍 -->
+                <div class="artifact-card rarity-epic">
+                    <div class="magical-aura"></div>
+                    <div class="artifact-header">
+                        <div class="artifact-icon">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <div>
+                            <h3 class="artifact-name">星界法袍</h3>
+                            <p class="artifact-subtitle">史诗法袍 · 星界编织</p>
+                        </div>
+                    </div>
+                    <p class="artifact-description">
+                        这件华丽的长袍由星界的以太物质编织而成，表面闪烁着星光般的光芒。它不仅提供强大的魔法防护，还能让穿戴者在不同位面之间自由穿梭。
+                    </p>
+                    <div class="artifact-properties">
+                        <div class="property-item">
+                            <span class="property-label">物品等级</span>
+                            <span class="property-value">史诗</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">重量</span>
+                            <span class="property-value">2磅</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">材质</span>
+                            <span class="property-value">星界以太 + 魔法丝线</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">移动</span>
+                            <span class="property-value">飞行速度60尺</span>
+                        </div>
+                    </div>
+                    <div class="artifact-powers">
+                        <h4 class="powers-title">
+                            <i class="fas fa-feather"></i>
+                            特殊能力
+                        </h4>
+                        <div class="power-item">
+                            <div class="power-name">星界传送</div>
+                            <div class="power-description">每天可施展3次星界投影，在星界中快速移动</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">位面适应</div>
+                            <div class="power-description">在任何位面都能正常施法，不受环境限制</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">星光护盾</div>
+                            <div class="power-description">生成一个吸收伤害的星光护盾，可吸收50点伤害</div>
+                        </div>
+                    </div>
+                    <div class="artifact-lore">
+                        <h5 class="lore-title">
+                            <i class="fas fa-scroll"></i>
+                            物品传说
+                        </h5>
+                        <p class="lore-text">
+                            "这件法袍是伊尔明斯特在星界旅行时，由星界居民赠予的礼物。它蕴含着星界的奥秘，让穿戴者能够感受到宇宙的脉动。每一针每一线都编织着位面的秘密。"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 永恒之戒 -->
+                <div class="artifact-card rarity-artifact">
+                    <div class="magical-aura"></div>
+                    <div class="artifact-header">
+                        <div class="artifact-icon">
+                            <i class="fas fa-ring"></i>
+                        </div>
+                        <div>
+                            <h3 class="artifact-name">永恒之戒</h3>
+                            <p class="artifact-subtitle">神器戒指 · 时间守护</p>
+                        </div>
+                    </div>
+                    <p class="artifact-description">
+                        这枚看似简单的银戒指蕴含着时间本身的奥秘。它由时间之神亲自锻造，能够让佩戴者感知时间的流动，甚至在某种程度上影响时间的进程。
+                    </p>
+                    <div class="artifact-properties">
+                        <div class="property-item">
+                            <span class="property-label">物品等级</span>
+                            <span class="property-value">神器</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">重量</span>
+                            <span class="property-value">0.1磅</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">材质</span>
+                            <span class="property-value">时间银 + 永恒水晶</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">特殊</span>
+                            <span class="property-value">时间抗性</span>
+                        </div>
+                    </div>
+                    <div class="artifact-powers">
+                        <h4 class="powers-title">
+                            <i class="fas fa-clock"></i>
+                            特殊能力
+                        </h4>
+                        <div class="power-item">
+                            <div class="power-name">时间停止</div>
+                            <div class="power-description">每天可施展1次时间停止，持续6秒（1轮）</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">预知未来</div>
+                            <div class="power-description">能够感知即将到来的危险，获得+5先攻检定</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">年龄免疫</div>
+                            <div class="power-description">佩戴者不会自然衰老，免疫时间类法术效果</div>
+                        </div>
+                    </div>
+                    <div class="artifact-lore">
+                        <h5 class="lore-title">
+                            <i class="fas fa-scroll"></i>
+                            物品传说
+                        </h5>
+                        <p class="lore-text">
+                            "这枚戒指见证了时间的开始，也将见证时间的终结。它是时间本身的碎片，让持有者能够窥视过去和未来的奥秘。伊尔明斯特佩戴它数个世纪，从未感到时间的流逝。"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 知识之书 -->
+                <div class="artifact-card">
+                    <div class="magical-aura"></div>
+                    <div class="artifact-header">
+                        <div class="artifact-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div>
+                            <h3 class="artifact-name">伊尔明斯特的知识之书</h3>
+                            <p class="artifact-subtitle">传奇魔法书 · 无尽智慧</p>
+                        </div>
+                    </div>
+                    <p class="artifact-description">
+                        这本看似普通的魔法书实际上是一个知识的宝库。它的页面似乎永无止境，能够记录和储存无限的魔法知识。每一页都蕴含着伊尔明斯特数个世纪以来积累的魔法智慧。
+                    </p>
+                    <div class="artifact-properties">
+                        <div class="property-item">
+                            <span class="property-label">物品等级</span>
+                            <span class="property-value">传奇</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">页数</span>
+                            <span class="property-value">无限</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">材质</span>
+                            <span class="property-value">龙皮 + 秘银线</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">知识</span>
+                            <span class="property-value">所有学派</span>
+                        </div>
+                    </div>
+                    <div class="artifact-powers">
+                        <h4 class="powers-title">
+                            <i class="fas fa-lightbulb"></i>
+                            特殊能力
+                        </h4>
+                        <div class="power-item">
+                            <div class="power-name">无限知识</div>
+                            <div class="power-description">包含所有已知法术，每天可准备额外10个法术</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">学习加速</div>
+                            <div class="power-description">阅读此书可快速学习新法术，学习时间减半</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">记忆增强</div>
+                            <div class="power-description">永远不会忘记已学法术，可瞬间回忆任何魔法知识</div>
+                        </div>
+                    </div>
+                    <div class="artifact-lore">
+                        <h5 class="lore-title">
+                            <i class="fas fa-scroll"></i>
+                            物品传说
+                        </h5>
+                        <p class="lore-text">
+                            "这本书是伊尔明斯特智慧的结晶，每一页都记录着他数个世纪的魔法研究。它不仅是魔法书，更是知识的活宝库，能够随着使用者的理解而不断成长和扩展。"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 防护护符 -->
+                <div class="artifact-card rarity-epic">
+                    <div class="magical-aura"></div>
+                    <div class="artifact-header">
+                        <div class="artifact-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="artifact-name">伊尔明斯特的防护护符</h3>
+                            <p class="artifact-subtitle">史诗护符 · 绝对防护</p>
+                        </div>
+                    </div>
+                    <p class="artifact-description">
+                        这个看似简单的护符实际上蕴含着强大的防护魔法。它由星铁制成，表面刻着古老的防护符文。佩戴者能够获得几乎绝对的魔法防护，抵御各种形式的攻击。
+                    </p>
+                    <div class="artifact-properties">
+                        <div class="property-item">
+                            <span class="property-label">物品等级</span>
+                            <span class="property-value">史诗</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">重量</span>
+                            <span class="property-value">0.2磅</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">材质</span>
+                            <span class="property-value">星铁 + 防护符文</span>
+                        </div>
+                        <div class="property-item">
+                            <span class="property-label">防护</span>
+                            <span class="property-value">+5豁免检定</span>
+                        </div>
+                    </div>
+                    <div class="artifact-powers">
+                        <h4 class="powers-title">
+                            <i class="fas fa-shield-virus"></i>
+                            特殊能力
+                        </h4>
+                        <div class="power-item">
+                            <div class="power-name">魔法免疫</div>
+                            <div class="power-description">对5级及以下法术完全免疫，对更高级法术有75%抗性</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">绝对屏障</div>
+                            <div class="power-description">每天可激活3次绝对屏障，完全免疫所有伤害3轮</div>
+                        </div>
+                        <div class="power-item">
+                            <div class="power-name">诅咒防护</div>
+                            <div class="power-description">免疫所有诅咒、疾病和负面状态效果</div>
+                        </div>
+                    </div>
+                    <div class="artifact-lore">
+                        <h5 class="lore-title">
+                            <i class="fas fa-scroll"></i>
+                            物品传说
+                        </h5>
+                        <p class="lore-text">
+                            "这个护符是伊尔明斯特在对抗邪恶势力时制作的，它承载着守护者的意志。每一个符文都代表着一种防护，共同构成了几乎无法突破的绝对防护。"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Alan Elminster. 保留所有权利。</p>
+                <p>用 <i class="fas fa-heart"></i> 和魔法构建</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

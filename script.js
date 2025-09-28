@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化所有功能
     initNavigation();
+    initSmoothScroll(); // 添加平滑滚动功能
     initScrollEffects();
     initSkillBars();
     initContactForm();
@@ -16,7 +17,6 @@ function initNavigation() {
     const navbar = document.querySelector('.navbar');
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
 
     // 滚动时改变导航栏样式
     window.addEventListener('scroll', function() {
@@ -33,29 +33,46 @@ function initNavigation() {
         navMenu.classList.toggle('active');
     });
 
-    // 点击导航链接时关闭移动端菜单
+    // 简单的移动端菜单关闭功能
+    const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            // 点击导航链接时关闭移动端菜单
+            if (hamburger.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+            
+            // 让nav-link的行为和logo-link一样 - 直接跳转，不阻止默认行为
+            // 不添加任何特殊处理，让浏览器处理正常的链接跳转
         });
     });
+}
 
-    // 平滑滚动到目标区域
+// 简单的平滑滚动功能（仅针对锚点链接）
+function initSmoothScroll() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 70; // 考虑导航栏高度
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
+        const href = link.getAttribute('href');
+        
+        // 只对锚点链接（以#开头）添加平滑滚动，外部链接直接跳转
+        if (href && href.startsWith('#')) {
+            link.addEventListener('click', function(e) {
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    e.preventDefault(); // 只阻止锚点链接的默认行为
+                    const offsetTop = targetSection.offsetTop - 70; // 考虑导航栏高度
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+        // 外部链接（如spells.html）不添加任何特殊处理，直接跳转
     });
 }
 
@@ -81,32 +98,39 @@ function initScrollEffects() {
         observer.observe(section);
     });
 
-    // 高亮当前导航项
+    // 高亮当前导航项（仅处理当前页面的锚点链接）
     const navLinks = document.querySelectorAll('.nav-link');
     const sectionIds = ['#home', '#about', '#skills', '#projects', '#contact'];
     
-    window.addEventListener('scroll', function() {
-        let current = '';
-        
-        sectionIds.forEach(id => {
-            const section = document.querySelector(id);
-            if (section) {
-                const sectionTop = section.offsetTop - 100;
-                const sectionHeight = section.offsetHeight;
-                
-                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-                    current = id;
+    // 检查当前页面是否是主页（index.html或根路径）
+    const isHomePage = window.location.pathname === '/' || 
+                      window.location.pathname.endsWith('index.html') || 
+                      window.location.pathname.endsWith('/');
+    
+    if (isHomePage) {
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            sectionIds.forEach(id => {
+                const section = document.querySelector(id);
+                if (section) {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                        current = id;
+                    }
                 }
-            }
-        });
+            });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === current) {
-                link.classList.add('active');
-            }
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                }
+            });
         });
-    });
+    }
 }
 
 // 技能条动画
@@ -391,10 +415,29 @@ window.addEventListener('load', function() {
 
 // 添加页面加载器
 function addLoader() {
+    // 检查是否已经存在加载器，避免重复创建
+    const existingLoader = document.querySelector('.loading');
+    if (existingLoader) {
+        return;
+    }
+    
     const loader = document.createElement('div');
     loader.className = 'loading';
     loader.innerHTML = '<div class="spinner"></div>';
+    loader.style.zIndex = '1'; // 设置很低的z-index
     document.body.appendChild(loader);
+    
+    // 1秒后自动移除加载器
+    setTimeout(() => {
+        if (loader.parentNode) {
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                if (loader.parentNode) {
+                    loader.remove();
+                }
+            }, 500);
+        }
+    }, 1000);
 }
 
 // 页面加载时添加加载器
