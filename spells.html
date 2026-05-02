@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>伊尔明斯特的法术 - Alan Elminster</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;伊尔明斯特的法术 - Alan Elminster&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+    &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+    &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"&gt;
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+    &lt;style&gt;
         .spells-hero {
-            background: linear-gradient(135deg, #2c1810 0%, #8b4513 50%, #daa520 100%);
+            background: linear-gradient(135deg, #1a0a2e 0%, #4a1c6a 50%, #667eea 100%);
             position: relative;
             overflow: hidden;
         }
@@ -23,33 +24,34 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="arcane" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,215,0,0.1)"/><path d="M5,5 L15,15 M15,5 L5,15" stroke="rgba(255,215,0,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23arcane)"/></svg>');
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.2), transparent 50%);
             pointer-events: none;
         }
 
         .spell-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            border: 2px solid #daa520;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.2);
+            transition: all var(--ease-smooth);
+            backdrop-filter: blur(20px);
         }
 
         .spell-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(218, 165, 32, 0.1), transparent);
-            animation: rotate 10s linear infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: conic-gradient(from 0deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: rotate 12s linear infinite;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity var(--ease-smooth);
         }
 
         .spell-card:hover::before {
@@ -57,122 +59,159 @@
         }
 
         .spell-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(218, 165, 32, 0.3);
-            border-color: #ffd700;
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--glass-highlight);
         }
 
         .spell-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .spell-name {
-            font-size: 1.8rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            background: var(--gradient-magic);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradient-shift 4s ease infinite;
         }
 
         .spell-level {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #1a1a2e;
-            padding: 5px 15px;
-            border-radius: 20px;
+            background: var(--gradient-magic);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         .spell-description {
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
         }
 
         .spell-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .spell-detail {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
-            border-left: 3px solid #daa520;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid;
+            border-image: var(--gradient-magic) 1;
         }
 
         .spell-detail-label {
-            font-size: 0.8rem;
-            color: #daa520;
-            font-weight: 500;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            background: var(--gradient-magic);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
         .spell-detail-value {
-            color: #ffffff;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
         .spell-components {
             display: flex;
-            gap: 10px;
+            gap: 0.75rem;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 1.25rem;
+            position: relative;
+            z-index: 1;
         }
 
         .component-tag {
-            background: rgba(218, 165, 32, 0.2);
-            color: #daa520;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(218, 165, 32, 0.3);
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--ease-smooth);
+        }
+
+        .component-tag:hover {
+            background: var(--gradient-magic);
+            border-color: transparent;
+            transform: scale(1.05);
         }
 
         .elminster-quote {
-            background: linear-gradient(135deg, #2c1810, #4a2c1a);
-            border-left: 5px solid #daa520;
-            padding: 30px;
-            margin: 40px 0;
-            border-radius: 10px;
+            background: var(--glass-bg);
+            border-left: 5px solid;
+            border-image: var(--gradient-magic) 1;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border-radius: 24px;
             position: relative;
+            backdrop-filter: blur(20px);
         }
 
         .elminster-quote::before {
             content: '"';
-            font-size: 4rem;
-            color: #daa520;
+            font-size: 5rem;
+            background: var(--gradient-magic);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             position: absolute;
-            top: -10px;
+            top: -20px;
             left: 20px;
             opacity: 0.5;
         }
 
         .quote-text {
-            color: #f0e6d2;
+            color: var(--text-secondary);
             font-style: italic;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .quote-author {
-            color: #daa520;
-            font-weight: 600;
+            background: var(--gradient-magic);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
             text-align: right;
+            position: relative;
+            z-index: 1;
         }
 
         .arcane-symbol {
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             opacity: 0.3;
             animation: float 3s ease-in-out infinite;
         }
@@ -189,332 +228,323 @@
 
         .spell-school {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffd700;
-            padding: 3px 8px;
-            border-radius: 12px;
+            background: var(--gradient-magic);
+            color: white;
+            padding: 0.375rem 0.875rem;
+            border-radius: 50px;
             font-size: 0.8rem;
-            margin-left: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            margin-left: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         .breadcrumbs {
-            margin-bottom: 30px;
-            padding: 15px 0;
+            margin-bottom: 1.5rem;
         }
 
-        .breadcrumbs a {
-            color: #daa520;
-            text-decoration: none;
-            margin-right: 10px;
+        .spells-grid {
+            display: grid;
+            gap: 2rem;
         }
 
-        .breadcrumbs a:hover {
-            color: #ffd700;
+        .section {
+            padding: 5rem 0;
+            position: relative;
+            z-index: 1;
         }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 导航栏 --&gt;
+    &lt;nav class="navbar"&gt;
+        &lt;div class="nav-container"&gt;
+            &lt;div class="nav-logo"&gt;
+                &lt;a href="index.html" class="logo-link"&gt;
+                    &lt;span class="logo-text"&gt;伊尔明斯特&lt;/span&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;ul class="nav-menu"&gt;
+                &lt;li class="nav-item"&gt;&lt;a href="index.html" class="nav-link"&gt;首页&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="nav-item"&gt;&lt;a href="spells.html" class="nav-link active"&gt;法术宝典&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="nav-item"&gt;&lt;a href="deeds.html" class="nav-link"&gt;传奇事迹&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="nav-item"&gt;&lt;a href="artifacts.html" class="nav-link"&gt;魔法物品&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="nav-item"&gt;&lt;a href="index.html#contact" class="nav-link"&gt;联系&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;div class="hamburger"&gt;
+                &lt;span class="bar"&gt;&lt;/span&gt;
+                &lt;span class="bar"&gt;&lt;/span&gt;
+                &lt;span class="bar"&gt;&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/nav&gt;
 
-        .breadcrumbs span {
-            color: #666;
-            margin-right: 10px;
-        }
+    &lt;!-- 法术页面英雄区域 --&gt;
+    &lt;section class="hero spells-hero"&gt;
+        &lt;div class="hero-container"&gt;
+            &lt;div class="hero-content"&gt;
+                &lt;div class="hero-text"&gt;
+                    &lt;div class="breadcrumbs"&gt;
+                        &lt;a href="index.html"&gt;首页&lt;/a&gt;
+                        &lt;span&gt;›&lt;/span&gt;
+                        &lt;span class="current-page"&gt;法术宝典&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;h1 class="hero-title"&gt;
+                        &lt;span class="gradient-text"&gt;伊尔明斯特的法术宝典&lt;/span&gt;
+                    &lt;/h1&gt;
+                    &lt;p class="hero-subtitle"&gt;探索被遗忘国度最伟大的法师之神秘魔法&lt;/p&gt;
+                    &lt;div class="hero-description"&gt;
+                        &lt;p&gt;从基础的防护法术到改变现实的传奇魔法&lt;/p&gt;
+                        &lt;p&gt;每一道法术都承载着知识与智慧的力量&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
 
-        .current-page {
-            color: #333;
-            font-weight: 500;
-        }
-    </style>
-</head>
-<body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" class="logo-link">
-                    <span class="logo-text">Alan Elminster</span>
-                </a>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link">首页</a></li>
-                <li class="nav-item"><a href="spells.html" class="nav-link active">法术宝典</a></li>
-                <li class="nav-item"><a href="deeds.html" class="nav-link">传奇事迹</a></li>
-                <li class="nav-item"><a href="artifacts.html" class="nav-link">魔法物品</a></li>
-                <li class="nav-item"><a href="index.html#contact" class="nav-link">联系</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- 法术页面英雄区域 -->
-    <section class="hero spells-hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="breadcrumbs">
-                        <a href="index.html">首页</a>
-                        <span>›</span>
-                        <span class="current-page">法术宝典</span>
-                    </div>
-                    <h1 class="hero-title">
-                        <span class="gradient-text">伊尔明斯特的法术宝典</span>
-                    </h1>
-                    <p class="hero-subtitle">探索被遗忘国度最伟大的法师之神秘魔法</p>
-                    <div class="hero-description">
-                        <p>从基础的防护法术到改变现实的传奇魔法</p>
-                        <p>每一道法术都承载着知识与智慧的力量</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 伊尔明斯特的引言 -->
-    <section class="section">
-        <div class="container">
-            <div class="elminster-quote">
-                <div class="arcane-symbol">
-                    <i class="fas fa-hat-wizard"></i>
-                </div>
-                <div class="quote-text">
+    &lt;!-- 伊尔明斯特的引言 --&gt;
+    &lt;section class="section"&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="elminster-quote"&gt;
+                &lt;div class="arcane-symbol"&gt;
+                    &lt;i class="fas fa-hat-wizard" style="font-size: 3rem; background: var(--gradient-magic); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"&gt;&lt;/i&gt;
+                &lt;/div&gt;
+                &lt;div class="quote-text"&gt;
                     魔法不是力量的源泉，而是责任的象征。每一个法术的施展都应该经过深思熟虑，因为它们不仅仅是法术，更是对世界本质的理解和运用。
-                </div>
-                <div class="quote-author">— 伊尔明斯特·奥玛尔</div>
-            </div>
-        </div>
-    </section>
+                &lt;/div&gt;
+                &lt;div class="quote-author"&gt;— 伊尔明斯特·奥玛尔&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
 
-    <!-- 法术列表 -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">传奇法术</h2>
-                <p class="section-subtitle">伊尔明斯特最著名的法术集合</p>
-            </div>
+    &lt;!-- 法术列表 --&gt;
+    &lt;section class="section"&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="section-header"&gt;
+                &lt;h2 class="section-title"&gt;传奇法术&lt;/h2&gt;
+                &lt;p class="section-subtitle"&gt;伊尔明斯特最著名的法术集合&lt;/p&gt;
+            &lt;/div&gt;
 
-            <div class="spells-grid">
-                <!-- 法术1：伊尔明斯特的法师护甲 -->
-                <div class="spell-card">
-                    <div class="spell-header">
-                        <h3 class="spell-name">伊尔明斯特的法师护甲</h3>
-                        <span class="spell-level">1级防护系</span>
-                    </div>
-                    <p class="spell-description">
+            &lt;div class="spells-grid"&gt;
+                &lt;!-- 法术1：伊尔明斯特的法师护甲 --&gt;
+                &lt;div class="spell-card"&gt;
+                    &lt;div class="spell-header"&gt;
+                        &lt;h3 class="spell-name"&gt;伊尔明斯特的法师护甲&lt;/h3&gt;
+                        &lt;span class="spell-level"&gt;1级防护系&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;p class="spell-description"&gt;
                         这是伊尔明斯特在年轻时创造的改良版法师护甲。除了提供标准的防护效果外，还能在受到攻击时释放一道微弱的魔法反馈，让攻击者感受到魔法的反噬。
-                    </p>
-                    <div class="spell-details">
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法时间</div>
-                            <div class="spell-detail-value">1个动作</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">持续时间</div>
-                            <div class="spell-detail-value">8小时</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法距离</div>
-                            <div class="spell-detail-value">接触</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">法术成分</div>
-                            <div class="spell-detail-value">V, S, M</div>
-                        </div>
-                    </div>
-                    <div class="spell-components">
-                        <span class="component-tag">语言 V</span>
-                        <span class="component-tag">姿势 S</span>
-                        <span class="component-tag">材料 M</span>
-                    </div>
-                </div>
+                    &lt;/p&gt;
+                    &lt;div class="spell-details"&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1个动作&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;持续时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;8小时&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法距离&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;接触&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;法术成分&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;V, S, M&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="spell-components"&gt;
+                        &lt;span class="component-tag"&gt;语言 V&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;姿势 S&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;材料 M&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
 
-                <!-- 法术2：星界洞察 -->
-                <div class="spell-card">
-                    <div class="spell-header">
-                        <h3 class="spell-name">星界洞察</h3>
-                        <span class="spell-level">3级预言系</span>
-                    </div>
-                    <p class="spell-description">
+                &lt;!-- 法术2：星界洞察 --&gt;
+                &lt;div class="spell-card"&gt;
+                    &lt;div class="spell-header"&gt;
+                        &lt;h3 class="spell-name"&gt;星界洞察&lt;/h3&gt;
+                        &lt;span class="spell-level"&gt;3级预言系&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;p class="spell-description"&gt;
                         伊尔明斯特通过观察星界流动而开发的预言法术。施法者能够窥视星界的奥秘，获得关于未来的模糊预兆，同时提升对魔法的理解能力。
-                    </p>
-                    <div class="spell-details">
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法时间</div>
-                            <div class="spell-detail-value">1分钟</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">持续时间</div>
-                            <div class="spell-detail-value">专注，最长1小时</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法距离</div>
-                            <div class="spell-detail-value">自身</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">法术成分</div>
-                            <div class="spell-detail-value">V, S</div>
-                        </div>
-                    </div>
-                    <div class="spell-components">
-                        <span class="component-tag">语言 V</span>
-                        <span class="component-tag">姿势 S</span>
-                    </div>
-                </div>
+                    &lt;/p&gt;
+                    &lt;div class="spell-details"&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1分钟&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;持续时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;专注，最长1小时&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法距离&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;自身&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;法术成分&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;V, S&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="spell-components"&gt;
+                        &lt;span class="component-tag"&gt;语言 V&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;姿势 S&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
 
-                <!-- 法术3：密斯特拉的恩赐 -->
-                <div class="spell-card">
-                    <div class="spell-header">
-                        <h3 class="spell-name">密斯特拉的恩赐</h3>
-                        <span class="spell-level">5级防护系</span>
-                        <span class="spell-school">神圣魔法</span>
-                    </div>
-                    <p class="spell-description">
+                &lt;!-- 法术3：密斯特拉的恩赐 --&gt;
+                &lt;div class="spell-card"&gt;
+                    &lt;div class="spell-header"&gt;
+                        &lt;h3 class="spell-name"&gt;密斯特拉的恩赐&lt;/h3&gt;
+                        &lt;span class="spell-level"&gt;5级防护系&lt;/span&gt;
+                        &lt;span class="spell-school"&gt;神圣魔法&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;p class="spell-description"&gt;
                         伊尔明斯特作为密斯特拉选民的特权法术。这个强大的防护法术能够抵御几乎所有形式的魔法攻击，并在法术持续期间增强施法者的魔法抗性。
-                    </p>
-                    <div class="spell-details">
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法时间</div>
-                            <div class="spell-detail-value">1个动作</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">持续时间</div>
-                            <div class="spell-detail-value">专注，最长10分钟</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法距离</div>
-                            <div class="spell-detail-value">自身</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">法术成分</div>
-                            <div class="spell-detail-value">V, S</div>
-                        </div>
-                    </div>
-                    <div class="spell-components">
-                        <span class="component-tag">语言 V</span>
-                        <span class="component-tag">姿势 S</span>
-                        <span class="component-tag">神圣</span>
-                    </div>
-                </div>
+                    &lt;/p&gt;
+                    &lt;div class="spell-details"&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1个动作&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;持续时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;专注，最长10分钟&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法距离&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;自身&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;法术成分&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;V, S&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="spell-components"&gt;
+                        &lt;span class="component-tag"&gt;语言 V&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;姿势 S&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;神圣&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
 
-                <!-- 法术4：时间扭曲 -->
-                <div class="spell-card">
-                    <div class="spell-header">
-                        <h3 class="spell-name">时间扭曲</h3>
-                        <span class="spell-level">7级变化系</span>
-                    </div>
-                    <p class="spell-description">
+                &lt;!-- 法术4：时间扭曲 --&gt;
+                &lt;div class="spell-card"&gt;
+                    &lt;div class="spell-header"&gt;
+                        &lt;h3 class="spell-name"&gt;时间扭曲&lt;/h3&gt;
+                        &lt;span class="spell-level"&gt;7级变化系&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;p class="spell-description"&gt;
                         伊尔明斯特在研究时间魔法时创造的传奇法术。能够让施法者短暂地扭曲时间流，在战斗中额外获得行动机会，或者加快施法速度。
-                    </p>
-                    <div class="spell-details">
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法时间</div>
-                            <div class="spell-detail-value">1个动作</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">持续时间</div>
-                            <div class="spell-detail-value">1轮</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法距离</div>
-                            <div class="spell-detail-value">自身</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">法术成分</div>
-                            <div class="spell-detail-value">V, S, M</div>
-                        </div>
-                    </div>
-                    <div class="spell-components">
-                        <span class="component-tag">语言 V</span>
-                        <span class="component-tag">姿势 S</span>
-                        <span class="component-tag">材料 M</span>
-                        <span class="component-tag">传奇</span>
-                    </div>
-                </div>
+                    &lt;/p&gt;
+                    &lt;div class="spell-details"&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1个动作&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;持续时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1轮&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法距离&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;自身&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;法术成分&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;V, S, M&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="spell-components"&gt;
+                        &lt;span class="component-tag"&gt;语言 V&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;姿势 S&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;材料 M&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;传奇&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
 
-                <!-- 法术5：银火风暴 -->
-                <div class="spell-card">
-                    <div class="spell-header">
-                        <h3 class="spell-name">银火风暴</h3>
-                        <span class="spell-level">9级塑能系</span>
-                        <span class="spell-school">银火魔法</span>
-                    </div>
-                    <p class="spell-description">
+                &lt;!-- 法术5：银火风暴 --&gt;
+                &lt;div class="spell-card"&gt;
+                    &lt;div class="spell-header"&gt;
+                        &lt;h3 class="spell-name"&gt;银火风暴&lt;/h3&gt;
+                        &lt;span class="spell-level"&gt;9级塑能系&lt;/span&gt;
+                        &lt;span class="spell-school"&gt;银火魔法&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;p class="spell-description"&gt;
                         伊尔明斯特作为密斯特拉选民的最强法术之一。释放纯粹的银火能量，形成毁灭性的魔法风暴，能够净化邪恶、摧毁魔法屏障，并对范围内的所有敌人造成巨大伤害。
-                    </p>
-                    <div class="spell-details">
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法时间</div>
-                            <div class="spell-detail-value">1个动作</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">持续时间</div>
-                            <div class="spell-detail-value">瞬间</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法距离</div>
-                            <div class="spell-detail-value">150尺</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">法术成分</div>
-                            <div class="spell-detail-value">V, S</div>
-                        </div>
-                    </div>
-                    <div class="spell-components">
-                        <span class="component-tag">语言 V</span>
-                        <span class="component-tag">姿势 S</span>
-                        <span class="component-tag">银火</span>
-                        <span class="component-tag">选民特权</span>
-                    </div>
-                </div>
+                    &lt;/p&gt;
+                    &lt;div class="spell-details"&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1个动作&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;持续时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;瞬间&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法距离&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;150尺&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;法术成分&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;V, S&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="spell-components"&gt;
+                        &lt;span class="component-tag"&gt;语言 V&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;姿势 S&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;银火&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;选民特权&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
 
-                <!-- 法术6：知识之触 -->
-                <div class="spell-card">
-                    <div class="spell-header">
-                        <h3 class="spell-name">知识之触</h3>
-                        <span class="spell-level">4级预言系</span>
-                    </div>
-                    <p class="spell-description">
+                &lt;!-- 法术6：知识之触 --&gt;
+                &lt;div class="spell-card"&gt;
+                    &lt;div class="spell-header"&gt;
+                        &lt;h3 class="spell-name"&gt;知识之触&lt;/h3&gt;
+                        &lt;span class="spell-level"&gt;4级预言系&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;p class="spell-description"&gt;
                         伊尔明斯特用于传授和获取知识的特殊法术。通过触摸书籍、物品或生物，施法者能够快速理解其中蕴含的知识和记忆，是学习新技能和了解未知事物的强大工具。
-                    </p>
-                    <div class="spell-details">
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法时间</div>
-                            <div class="spell-detail-value">1分钟</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">持续时间</div>
-                            <div class="spell-detail-value">瞬间</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">施法距离</div>
-                            <div class="spell-detail-value">接触</div>
-                        </div>
-                        <div class="spell-detail">
-                            <div class="spell-detail-label">法术成分</div>
-                            <div class="spell-detail-value">V, S</div>
-                        </div>
-                    </div>
-                    <div class="spell-components">
-                        <span class="component-tag">语言 V</span>
-                        <span class="component-tag">姿势 S</span>
-                        <span class="component-tag">知识</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                    &lt;/p&gt;
+                    &lt;div class="spell-details"&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;1分钟&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;持续时间&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;瞬间&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;施法距离&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;接触&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class="spell-detail"&gt;
+                            &lt;div class="spell-detail-label"&gt;法术成分&lt;/div&gt;
+                            &lt;div class="spell-detail-value"&gt;V, S&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="spell-components"&gt;
+                        &lt;span class="component-tag"&gt;语言 V&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;姿势 S&lt;/span&gt;
+                        &lt;span class="component-tag"&gt;知识&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Alan Elminster. 保留所有权利。</p>
-                <p>用 <i class="fas fa-heart"></i> 和魔法构建</p>
-            </div>
-        </div>
-    </footer>
+    &lt;!-- 页脚 --&gt;
+    &lt;footer class="footer"&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="footer-content"&gt;
+                &lt;p&gt;&amp;copy; 2024 Alan Elminster. 保留所有权利。&lt;/p&gt;
+                &lt;p&gt;用 &lt;i class="fas fa-heart"&gt;&lt;/i&gt; 和魔法构建&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/footer&gt;
 
-    <script src="script.js"></script>
-</body>
-</html>
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;

@@ -1,16 +1,58 @@
-// 等待DOM加载完成
+// 魔法网站 - 增强版交互脚本
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化所有功能
+    initMagicBackground();
     initNavigation();
-    initSmoothScroll(); // 添加平滑滚动功能
+    initSmoothScroll();
     initScrollEffects();
     initSkillBars();
     initContactForm();
     initScrollIndicator();
     initAnimations();
     initTypingEffect();
-    initParticleEffect();
+    initMouseFollow();
+    initParallax();
+    initCard3DEffect();
 });
+
+// 魔法背景粒子效果
+function initMagicBackground() {
+    const bg = document.createElement('div');
+    bg.className = 'magic-bg';
+    document.body.appendChild(bg);
+
+    // 创建30个魔法粒子
+    for (let i = 0; i < 30; i++) {
+        createMagicParticle(bg);
+    }
+}
+
+function createMagicParticle(container) {
+    const particle = document.createElement('div');
+    particle.className = 'magic-particle';
+    
+    // 随机位置、大小、动画延迟
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+    
+    // 随机大小
+    const size = 2 + Math.random() * 4;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    // 随机颜色
+    const colors = [
+        'rgba(102, 126, 234, 0.8)',
+        'rgba(240, 147, 251, 0.8)',
+        'rgba(118, 75, 162, 0.8)',
+        'rgba(255, 215, 0, 0.6)'
+    ];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.background = 'radial-gradient(circle, ' + color + ', transparent)';
+    
+    container.appendChild(particle);
+}
 
 // 导航栏功能
 function initNavigation() {
@@ -28,43 +70,41 @@ function initNavigation() {
     });
 
     // 移动端菜单切换
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
 
-    // 简单的移动端菜单关闭功能
+    // 点击导航链接时关闭移动端菜单
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            // 点击导航链接时关闭移动端菜单
-            if (hamburger.classList.contains('active')) {
+            if (hamburger && hamburger.classList.contains('active')) {
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
             }
-            
-            // 让nav-link的行为和logo-link一样 - 直接跳转，不阻止默认行为
-            // 不添加任何特殊处理，让浏览器处理正常的链接跳转
         });
     });
 }
 
-// 简单的平滑滚动功能（仅针对锚点链接）
+// 平滑滚动功能
 function initSmoothScroll() {
     const navLinks = document.querySelectorAll('.nav-link');
     
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         
-        // 只对锚点链接（以#开头）添加平滑滚动，外部链接直接跳转
+        // 只对锚点链接添加平滑滚动
         if (href && href.startsWith('#')) {
             link.addEventListener('click', function(e) {
                 const targetId = href.substring(1);
                 const targetSection = document.getElementById(targetId);
                 
                 if (targetSection) {
-                    e.preventDefault(); // 只阻止锚点链接的默认行为
-                    const offsetTop = targetSection.offsetTop - 70; // 考虑导航栏高度
+                    e.preventDefault();
+                    const offsetTop = targetSection.offsetTop - 80;
                     window.scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'
@@ -72,18 +112,17 @@ function initSmoothScroll() {
                 }
             });
         }
-        // 外部链接（如spells.html）不添加任何特殊处理，直接跳转
     });
 }
 
 // 滚动效果
 function initScrollEffects() {
-    // 为所有section添加滚动动画
     const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
     
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -100px 0px'
     };
 
     const observer = new IntersectionObserver(function(entries) {
@@ -98,39 +137,23 @@ function initScrollEffects() {
         observer.observe(section);
     });
 
-    // 高亮当前导航项（仅处理当前页面的锚点链接）
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sectionIds = ['#home', '#about', '#skills', '#projects', '#contact'];
-    
-    // 检查当前页面是否是主页（index.html或根路径）
-    const isHomePage = window.location.pathname === '/' || 
-                      window.location.pathname.endsWith('index.html') || 
-                      window.location.pathname.endsWith('/');
-    
-    if (isHomePage) {
-        window.addEventListener('scroll', function() {
-            let current = '';
-            
-            sectionIds.forEach(id => {
-                const section = document.querySelector(id);
-                if (section) {
-                    const sectionTop = section.offsetTop - 100;
-                    const sectionHeight = section.offsetHeight;
-                    
-                    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-                        current = id;
-                    }
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === current) {
-                    link.classList.add('active');
-                }
-            });
+    // 滚动时高亮当前导航
+    window.addEventListener('scroll', function() {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            if (window.scrollY >= sectionTop) {
+                current = '#' + section.getAttribute('id');
+            }
         });
-    }
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === current) {
+                link.classList.add('active');
+            }
+        });
+    });
 }
 
 // 技能条动画
@@ -148,7 +171,7 @@ function initSkillBars() {
                 const bar = entry.target;
                 const width = bar.getAttribute('data-width');
                 
-                setTimeout(() => {
+                setTimeout(function() {
                     bar.style.width = width;
                 }, 200);
             }
@@ -168,14 +191,12 @@ function initContactForm() {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // 获取表单数据
             const formData = new FormData(this);
             const name = formData.get('name');
             const email = formData.get('email');
             const subject = formData.get('subject');
             const message = formData.get('message');
             
-            // 简单的表单验证
             if (!name || !email || !subject || !message) {
                 showNotification('请填写所有必填字段', 'error');
                 return;
@@ -186,18 +207,16 @@ function initContactForm() {
                 return;
             }
             
-            // 模拟发送过程
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
             
             submitBtn.textContent = '发送中...';
             submitBtn.disabled = true;
             
-            // 模拟异步发送
-            setTimeout(() => {
-                // 这里可以添加实际的发送逻辑，比如发送到后端API
-                showNotification('消息发送成功！我会尽快回复您。', 'success');
-                this.reset();
+            // 模拟发送
+            setTimeout(function() {
+                showNotification('消息发送成功！', 'success');
+                contactForm.reset();
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }, 2000);
@@ -205,7 +224,7 @@ function initContactForm() {
     }
 }
 
-// 邮箱验证函数
+// 邮箱验证
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -213,48 +232,27 @@ function isValidEmail(email) {
 
 // 通知系统
 function showNotification(message, type) {
-    // 创建通知元素
+    // 移除现有通知
+    const existing = document.querySelector('.notification');
+    if (existing) existing.remove();
+
     const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = 'notification ' + type;
     notification.textContent = message;
-    
-    // 添加样式
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        padding: 15px 20px;
-        border-radius: 10px;
-        color: white;
-        font-weight: 500;
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    `;
-    
-    // 根据类型设置背景色
-    if (type === 'success') {
-        notification.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
-    } else if (type === 'error') {
-        notification.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)';
-    }
-    
     document.body.appendChild(notification);
     
     // 显示动画
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
+    setTimeout(function() {
+        notification.classList.add('show');
+    }, 10);
     
     // 自动隐藏
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
+    setTimeout(function() {
+        notification.classList.remove('show');
+        setTimeout(function() {
+            notification.remove();
         }, 300);
-    }, 3000);
+    }, 3500);
 }
 
 // 滚动指示器
@@ -280,106 +278,68 @@ function initTypingEffect() {
     if (!heroTitle) return;
     
     const originalText = heroTitle.textContent;
-    const textArray = originalText.split('');
-    let currentIndex = 0;
-    
-    // 清空原始文本
     heroTitle.textContent = '';
     
-    // 打字效果
+    let currentIndex = 0;
     function typeText() {
-        if (currentIndex < textArray.length) {
-            heroTitle.textContent += textArray[currentIndex];
+        if (currentIndex < originalText.length) {
+            heroTitle.textContent += originalText[currentIndex];
             currentIndex++;
-            setTimeout(typeText, 100);
+            const delay = Math.random() * 50 + 30;
+            setTimeout(typeText, delay);
         }
     }
     
-    // 延迟开始打字效果
-    setTimeout(typeText, 500);
+    setTimeout(typeText, 800);
 }
 
-// 粒子效果
-function initParticleEffect() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.style.position = 'absolute';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.zIndex = '1';
-    
-    hero.appendChild(canvas);
-    
-    function resizeCanvas() {
-        canvas.width = hero.offsetWidth;
-        canvas.height = hero.offsetHeight;
-    }
-    
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    
-    // 粒子类
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 1;
-            this.speedX = Math.random() * 0.5 - 0.25;
-            this.speedY = Math.random() * 0.5 - 0.25;
-            this.opacity = Math.random() * 0.5 + 0.2;
-        }
+// 鼠标跟随效果
+function initMouseFollow() {
+    function createFollower(delay, size, color) {
+        const follower = document.createElement('div');
+        follower.style.cssText = 
+            'position: fixed;' +
+            'width: ' + size + 'px;' +
+            'height: ' + size + 'px;' +
+            'border-radius: 50%;' +
+            'background: radial-gradient(circle, ' + color + ', transparent);' +
+            'pointer-events: none;' +
+            'z-index: 9998;' +
+            'opacity: 0.4;' +
+            'transition: transform 0.1s ease-out;';
+        document.body.appendChild(follower);
         
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            if (this.x > canvas.width) this.x = 0;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.y > canvas.height) this.y = 0;
-            if (this.y < 0) this.y = canvas.height;
-        }
+        let currentX = window.innerWidth / 2;
+        let currentY = window.innerHeight / 2;
         
-        draw() {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    
-    // 创建粒子数组
-    const particles = [];
-    const particleCount = 50;
-    
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-    
-    // 动画循环
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            particle.update();
-            particle.draw();
+        document.addEventListener('mousemove', function(e) {
+            setTimeout(function() {
+                currentX += (e.clientX - currentX) * (1 - delay);
+                currentY += (e.clientY - currentY) * (1 - delay);
+                follower.style.transform = 'translate(' + (currentX - size/2) + 'px, ' + (currentY - size/2) + 'px)';
+            }, delay * 100);
         });
-        
-        requestAnimationFrame(animate);
     }
     
-    animate();
+    // 创建3个跟随元素
+    createFollower(0.1, 30, 'rgba(102, 126, 234, 0.6)');
+    createFollower(0.2, 20, 'rgba(240, 147, 251, 0.5)');
+    createFollower(0.3, 15, 'rgba(118, 75, 162, 0.4)');
+}
+
+// 视差效果
+function initParallax() {
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+        }
+    });
 }
 
 // 动画初始化
 function initAnimations() {
-    // 为元素添加进入动画
     const animatedElements = document.querySelectorAll('.stat-item, .skill-category, .project-card');
     
     const observerOptions = {
@@ -388,140 +348,100 @@ function initAnimations() {
     };
 
     const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
+        entries.forEach(function(entry, index) {
             if (entry.isIntersecting) {
-                entry.target.style.animationDelay = Math.random() * 0.3 + 's';
-                entry.target.classList.add('fade-in-up');
+                setTimeout(function() {
+                    entry.target.classList.add('fade-in-up');
+                }, index * 100);
             }
         });
     }, observerOptions);
 
-    animatedElements.forEach(element => {
+    animatedElements.forEach(function(element) {
         observer.observe(element);
     });
 }
 
 // 页面加载动画
 window.addEventListener('load', function() {
-    // 隐藏加载器
-    const loading = document.querySelector('.loading');
-    if (loading) {
+    // 添加加载动画
+    const loading = document.createElement('div');
+    loading.className = 'loading';
+    loading.innerHTML = '<div class="spinner"></div>';
+    document.body.appendChild(loading);
+    
+    setTimeout(function() {
         loading.classList.add('hidden');
-        setTimeout(() => {
+        setTimeout(function() {
             loading.remove();
         }, 500);
-    }
+    }, 800);
+    
+    // 添加返回顶部按钮
+    addBackToTopButton();
 });
 
-// 添加页面加载器
-function addLoader() {
-    // 检查是否已经存在加载器，避免重复创建
-    const existingLoader = document.querySelector('.loading');
-    if (existingLoader) {
-        return;
-    }
+// 返回顶部按钮
+function addBackToTopButton() {
+    const backToTop = document.createElement('button');
+    backToTop.className = 'back-to-top';
+    backToTop.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    backToTop.setAttribute('aria-label', '返回顶部');
+    document.body.appendChild(backToTop);
     
-    const loader = document.createElement('div');
-    loader.className = 'loading';
-    loader.innerHTML = '<div class="spinner"></div>';
-    loader.style.zIndex = '1'; // 设置很低的z-index
-    document.body.appendChild(loader);
-    
-    // 1秒后自动移除加载器
-    setTimeout(() => {
-        if (loader.parentNode) {
-            loader.classList.add('hidden');
-            setTimeout(() => {
-                if (loader.parentNode) {
-                    loader.remove();
-                }
-            }, 500);
+    window.addEventListener('scroll', throttle(function() {
+        if (window.scrollY > 400) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
         }
-    }, 1000);
-}
-
-// 页面加载时添加加载器
-document.addEventListener('DOMContentLoaded', addLoader);
-
-// 添加一些实用的辅助函数
-const Utils = {
-    // 防抖函数
-    debounce: function(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    },
+    }, 100));
     
-    // 节流函数
-    throttle: function(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        };
-    },
-    
-    // 平滑滚动到顶部
-    scrollToTop: function() {
+    backToTop.addEventListener('click', function() {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-    }
-};
-
-// 添加返回顶部按钮
-function addBackToTopButton() {
-    const backToTop = document.createElement('div');
-    backToTop.className = 'back-to-top';
-    backToTop.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    backToTop.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--gradient-primary);
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 1000;
-        box-shadow: var(--shadow-medium);
-    `;
-    
-    document.body.appendChild(backToTop);
-    
-    // 显示/隐藏按钮
-    window.addEventListener('scroll', Utils.throttle(function() {
-        if (window.scrollY > 300) {
-            backToTop.style.opacity = '1';
-            backToTop.style.visibility = 'visible';
-        } else {
-            backToTop.style.opacity = '0';
-            backToTop.style.visibility = 'hidden';
-        }
-    }, 100));
-    
-    // 点击返回顶部
-    backToTop.addEventListener('click', Utils.scrollToTop);
+    });
 }
 
-// 初始化返回顶部按钮
-document.addEventListener('DOMContentLoaded', addBackToTopButton);
+// 节流函数
+function throttle(func, limit) {
+    let inThrottle = false;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(function() {
+                inThrottle = false;
+            }, limit);
+        }
+    };
+}
+
+// 添加3D倾斜效果到卡片
+function initCard3DEffect() {
+    const cards = document.querySelectorAll('.skill-category, .project-card, .stat-item, .contact-item');
+    
+    cards.forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = '';
+        });
+    });
+}
