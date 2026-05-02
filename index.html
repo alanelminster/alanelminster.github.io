@@ -46,7 +46,13 @@
       </div>
     </div>
     <div class="hero-image-container">
-      <img src="avatar.jpg" alt="Alan Elminster" class="hero-avatar">
+      <div class="avatar-wrapper">
+        <img src="avatar.jpg" alt="Alan Elminster" class="hero-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="avatar-fallback" style="display:none;">
+          <i class="fas fa-hat-wizard"></i>
+        </div>
+        <div class="avatar-glow-ring"></div>
+      </div>
     </div>
   </section>
 
